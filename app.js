@@ -7,8 +7,8 @@ const { errors } = require('celebrate');
 const helmet = require('helmet');
 const ErrorObjectNotFound = require('./errors/ErrorObjectNotFound');
 const errorHandler = require('./middlewares/errorHandler');
-//const { login, createUser } = require('./controllers/users');
-//const { loginValidation, regValidation } = require('./middlewares/validations');
+const { login, createUser } = require('./controllers/users');
+const { loginValidation, regValidation } = require('./middlewares/validations');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('cors')
@@ -30,10 +30,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
 
-//app.post('/signin', loginValidation, login);
-//app.post('/signup', regValidation, createUser);
+app.post('/signin', loginValidation, login);
+app.post('/signup', regValidation, createUser);
 
-//app.use('/users', auth, require('./routes/users'));
+app.use('/users', auth, require('./routes/users'));
 //app.use('/cards', auth, require('./routes/cards'));
 
 app.use(auth, (req, res, next) => {

@@ -2,12 +2,26 @@ const { celebrate, Joi, Segments } = require('celebrate');
 
 const loginValidation = celebrate({
   [Segments.BODY]: Joi.object().keys({
-    email: Joi.string().required().min(2).max(20)
-      .email(),
+    email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 });
 
+const regValidation = celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+    name: Joi.string().min(2).max(30).required(),
+  }),
+});
+
+const updateProfileValidation = celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    email: Joi.string().required().email(),
+    name: Joi.string().min(2).max(30).required(),
+  }),
+});
+/*
 const validateURL = (value) => {
   if (!/((https?:\/{2})|(w{3}\.))[A-z0-9-]+\.[/\w-.#~:?[\]@!$&'()*+,;=]+/g.test(value)) {
     throw new Error('Неправильный формат ссылки');
@@ -15,29 +29,13 @@ const validateURL = (value) => {
   return value;
 };
 
-const regValidation = celebrate({
-  [Segments.BODY]: Joi.object().keys({
-    email: Joi.string().required().min(2).max(20)
-      .email(),
-    password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().custom(validateURL),
-  }),
-});
-
 const userIdValidation = celebrate({
   [Segments.PARAMS]: Joi.object().keys({
     userId: Joi.string().length(24).hex().required(),
   }),
 });
 
-const updateProfileValidation = celebrate({
-  [Segments.BODY]: Joi.object().keys({
-    name: Joi.string().min(2).max(30).required(),
-    about: Joi.string().min(2).max(30).required(),
-  }),
-});
+
 
 const updateAvatarValidation = celebrate({
   [Segments.BODY]: Joi.object().keys({
@@ -56,14 +54,14 @@ const cardCreateValidation = celebrate({
     name: Joi.string().min(2).max(30).required(),
     link: Joi.string().required().custom(validateURL),
   }),
-});
+});*/
 
 module.exports = {
   loginValidation,
   regValidation,
-  userIdValidation,
   updateProfileValidation,
+/*  userIdValidation,
   updateAvatarValidation,
   cardIdValidation,
-  cardCreateValidation,
+  cardCreateValidation,*/
 };
