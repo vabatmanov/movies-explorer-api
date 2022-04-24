@@ -1,4 +1,12 @@
 const { celebrate, Joi, Segments } = require('celebrate');
+const { isURL } = require('validator');
+
+const validateURL = (value) => {
+  if (!isURL(value)) {
+    throw new Error('Неправильный формат ссылки');
+  }
+  return value;
+};
 
 const loginValidation = celebrate({
   [Segments.BODY]: Joi.object().keys({
@@ -15,20 +23,23 @@ const regValidation = celebrate({
   }),
 });
 
-const updateProfileValidation = celebrate({
+const createMovieValidation = celebrate({
   [Segments.BODY]: Joi.object().keys({
-    email: Joi.string().required().email(),
-    name: Joi.string().min(2).max(30).required(),
+    country: Joi.string().required(),
+    director: Joi.string().required(),
+    duration: Joi.number().required(),
+    year: Joi.string().required(),
+    description: Joi.string().required(),
+    image: Joi.string().required().custom(validateURL),
+    trailer: Joi.string().required().custom(validateURL),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
+    thumbnail: Joi.string().required().custom(validateURL),
+    movieId: Joi.number().required(),
   }),
 });
-/*
-const validateURL = (value) => {
-  if (!/((https?:\/{2})|(w{3}\.))[A-z0-9-]+\.[/\w-.#~:?[\]@!$&'()*+,;=]+/g.test(value)) {
-    throw new Error('Неправильный формат ссылки');
-  }
-  return value;
-};
 
+/*
 const userIdValidation = celebrate({
   [Segments.PARAMS]: Joi.object().keys({
     userId: Joi.string().length(24).hex().required(),
@@ -59,7 +70,7 @@ const cardCreateValidation = celebrate({
 module.exports = {
   loginValidation,
   regValidation,
-  updateProfileValidation,
+  createMovieValidation,
 /*  userIdValidation,
   updateAvatarValidation,
   cardIdValidation,

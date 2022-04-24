@@ -34,7 +34,7 @@ app.post('/signin', loginValidation, login);
 app.post('/signup', regValidation, createUser);
 
 app.use('/users', auth, require('./routes/users'));
-//app.use('/cards', auth, require('./routes/cards'));
+app.use('/movies', auth, require('./routes/movies'));
 
 app.use(auth, (req, res, next) => {
   next(new ErrorObjectNotFound('Указанный путь не существует'));
