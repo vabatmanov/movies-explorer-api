@@ -90,49 +90,5 @@ module.exports.updateUserProfile = (req, res, next) => {
 module.exports.logOff = (req, res, next) => {
   res.clearCookie("jwt").send({message: 'logoff'});
 };
-/*module.exports.getUsers = (req, res, next) => {
-  User.find({})
-    .then((user) => res.send(user))
-    .catch((err) => {
-      next(err);
-    });
-};*/
-
-/*module.exports.getUserId = (req, res, next) => {
-  User.findById(req.params.userId)
-    .orFail(() => {
-      throw new ObjectNotFound(`Пользователь по указанному _id='${req.params.userId}' не найден`);
-    })
-    .then((user) => res.send(user))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new ErrorValidation(`Пользователь по указанному _id='${req.params.userId}' не найден`));
-      } else {
-        next(err);
-      }
-    });
-};*/
-
-
-
-
-
-/*module.exports.updateUserAvatar = (req, res, next) => {
-  const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
-    .orFail(() => {
-      throw new ObjectNotFound(`Пользователь с указанным _id='${req.params.userId}' не найден`);
-    })
-    .then((user) => {
-      res.send(user);
-    })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new ErrorValidation('Переданы некорректные данные при обновлении профиля'));
-      } else {
-        next(err);
-      }
-    });
-};*/
 
 

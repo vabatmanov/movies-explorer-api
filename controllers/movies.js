@@ -14,7 +14,7 @@ module.exports.getMovies = (req, res, next) => {
 
 module.exports.createMovie = (req, res, next) => {
   const { country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId } = req.body;
-  Movie.create({ country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId, owner: req.user._id })
+  Movie.create({ country, director, duration, year, description, image, trailerLink: trailer, nameRU, nameEN, thumbnail, movieId, owner: req.user._id })
     .then((movie) => {
       res.send(movie)
     })
@@ -30,11 +30,11 @@ module.exports.createMovie = (req, res, next) => {
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params._id)
     .orFail(() => {
-      throw new ErrorObjectNotFound(`Карточка с указанным _id='${req.params._id}' не найдена`);
+      throw new ErrorObjectNotFound(`Фильм с указанным _id='${req.params._id}' не найден`);
     })
     .then((movie) => {
       if (!(movie.owner.toString() === req.user._id)) {
-        throw new ErrorAccessDenied('Попытка удалить чужую карточку');
+        throw new ErrorAccessDenied('Попытка удалить чужой фильм');
       }
       return Movie.findByIdAndRemove(req.params._id);
     })
@@ -43,7 +43,7 @@ module.exports.deleteMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new ErrorObjectNotFound(`Карточка с указанным _id='${req.params._id}' не найдена`));
+        next(new ErrorObjectNotFound(`Фильм с указанным _id='${req.params._id}' не найден`));
       } else {
         next(err);
       }

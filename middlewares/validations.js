@@ -39,6 +39,34 @@ const createMovieValidation = celebrate({
   }),
 });
 
+const deleteMovieValidation = celebrate({
+  [Segments.PARAMS]: Joi.object().keys({
+    _id: Joi.string().length(24).hex().required(),
+  }),
+});
+
+const updateProfileValidation = celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    email: Joi.string().required().email(),
+    name: Joi.string().min(2).max(30).required(),
+  }),
+});
+
+
+module.exports = {
+  loginValidation,
+  regValidation,
+  createMovieValidation,
+  deleteMovieValidation,
+  updateProfileValidation
+  /*  userIdValidation,
+    updateAvatarValidation,
+    cardIdValidation,
+    cardCreateValidation,*/
+};
+
+
+
 /*
 const userIdValidation = celebrate({
   [Segments.PARAMS]: Joi.object().keys({
@@ -48,11 +76,7 @@ const userIdValidation = celebrate({
 
 
 
-const updateAvatarValidation = celebrate({
-  [Segments.BODY]: Joi.object().keys({
-    avatar: Joi.string().required().custom(validateURL),
-  }),
-});
+
 
 const cardIdValidation = celebrate({
   [Segments.PARAMS]: Joi.object().keys({
@@ -67,12 +91,3 @@ const cardCreateValidation = celebrate({
   }),
 });*/
 
-module.exports = {
-  loginValidation,
-  regValidation,
-  createMovieValidation,
-/*  userIdValidation,
-  updateAvatarValidation,
-  cardIdValidation,
-  cardCreateValidation,*/
-};
