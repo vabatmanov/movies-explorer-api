@@ -4,7 +4,6 @@ const { login, createUser, logOff } = require('../controllers/users');
 const { loginValidation, regValidation } = require('../middlewares/validations');
 const auth = require('../middlewares/auth');
 
-
 router.post('/signin', loginValidation, login);
 router.post('/signup', regValidation, createUser);
 router.post('/signout', auth, logOff);

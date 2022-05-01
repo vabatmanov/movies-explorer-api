@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 const errorHandler = require('./middlewares/errorHandler');
+const rateLimits = require('./middlewares/rateLimit');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('cors')
 
@@ -14,9 +15,10 @@ const app = express();
 
 app.use(helmet());
 app.use(requestLogger);
+app.use(rateLimits);
 
 app.use(cors({
-  origin: '*',
+  origin: 'https://vabatmanovdip.nomoredomains.work',
   optionsSuccessStatus: 200,
   credentials: true,
 }));
@@ -24,7 +26,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(NODE_ENV === 'production' ? DB_LINK : 'mongodb://localhost:27017/bitfilmsdb');
+mongoose.connect(NODE_ENV === 'production' ? DB_LINK : 'mongodb://localhost:27017/moviesdb');
 
 app.use('/', require('./routes/index'));
 
