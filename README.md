@@ -2,6 +2,6 @@
 
 Репозиторий дипломной работы, бэкенд часть приложения со следующими возможностями: авторизации и регистрации пользователей, операции с фильмами и пользователями.
 
-https://api.vabatmanovdip.nomoredomains.work/api/
+https://api.vabatmanovdip.nomoredomains.work/
 
 polarsky@51.250.17.34
