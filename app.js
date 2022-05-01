@@ -5,10 +5,10 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
+const cors = require('cors');
 const errorHandler = require('./middlewares/errorHandler');
 const rateLimits = require('./middlewares/rateLimit');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cors = require('cors')
 
 const { DB_LINK, NODE_ENV, PORT = 3000 } = process.env;
 const app = express();

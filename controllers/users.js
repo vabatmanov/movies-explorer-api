@@ -42,7 +42,7 @@ module.exports.getUserInfo = (req, res, next) => {
 
 module.exports.createUser = (req, res, next) => {
   const {
-    email, password, name
+    email, password, name,
   } = req.body;
   User.findOne({ email })
     .then((user) => {
@@ -52,12 +52,12 @@ module.exports.createUser = (req, res, next) => {
       return bcrypt.hash(password, constants.SALT_ROUNDS);
     })
     .then((hash) => User.create({
-      email, password: hash, name
+      email, password: hash, name,
     }))
     .then((user) => res.send({
       data: {
         email: user.email,
-        name: user.name
+        name: user.name,
       },
     }))
     .catch((err) => {
@@ -87,8 +87,6 @@ module.exports.updateUserProfile = (req, res, next) => {
     });
 };
 
-module.exports.logOff = (req, res, next) => {
-  res.clearCookie("jwt").send({message: 'logoff'});
+module.exports.logOff = (req, res) => {
+  res.clearCookie('jwt').send({ message: 'logoff' });
 };
-
-

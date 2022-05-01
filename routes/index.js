@@ -8,8 +8,8 @@ router.post('/signin', loginValidation, login);
 router.post('/signup', regValidation, createUser);
 router.post('/signout', auth, logOff);
 
-router.use('/users', auth, require('../routes/users'));
-router.use('/movies', auth, require('../routes/movies'));
+router.use('/users', auth, require('./users'));
+router.use('/movies', auth, require('./movies'));
 
 router.use(auth, (req, res, next) => {
   next(new ErrorObjectNotFound('Указанный путь не существует'));

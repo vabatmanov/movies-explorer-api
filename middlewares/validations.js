@@ -52,42 +52,10 @@ const updateProfileValidation = celebrate({
   }),
 });
 
-
 module.exports = {
   loginValidation,
   regValidation,
   createMovieValidation,
   deleteMovieValidation,
-  updateProfileValidation
-  /*  userIdValidation,
-    updateAvatarValidation,
-    cardIdValidation,
-    cardCreateValidation,*/
+  updateProfileValidation,
 };
-
-
-
-/*
-const userIdValidation = celebrate({
-  [Segments.PARAMS]: Joi.object().keys({
-    userId: Joi.string().length(24).hex().required(),
-  }),
-});
-
-
-
-
-
-const cardIdValidation = celebrate({
-  [Segments.PARAMS]: Joi.object().keys({
-    cardId: Joi.string().length(24).hex().required(),
-  }),
-});
-
-const cardCreateValidation = celebrate({
-  [Segments.BODY]: Joi.object().keys({
-    name: Joi.string().min(2).max(30).required(),
-    link: Joi.string().required().custom(validateURL),
-  }),
-});*/
-

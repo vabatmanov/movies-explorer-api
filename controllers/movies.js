@@ -4,7 +4,7 @@ const ErrorAccessDenied = require('../errors/ErrorAccessDenied');
 const ErrorValidation = require('../errors/ErrorValidation');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({owner: req.user._id})
+  Movie.find({ owner: req.user._id })
     .populate(['owner'])
     .then((movie) => res.send(movie))
     .catch((err) => {
@@ -13,10 +13,35 @@ module.exports.getMovies = (req, res, next) => {
 };
 
 module.exports.createMovie = (req, res, next) => {
-  const { country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId } = req.body;
-  Movie.create({ country, director, duration, year, description, image, trailerLink: trailer, nameRU, nameEN, thumbnail, movieId, owner: req.user._id })
+  const {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+  } = req.body;
+  Movie.create({
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink: trailer,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+    owner: req.user._id,
+  })
     .then((movie) => {
-      res.send(movie)
+      res.send(movie);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
