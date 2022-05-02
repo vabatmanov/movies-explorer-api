@@ -1,7 +1,7 @@
 {
   "name": "movies-explorer-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Graduate work in yandex practicum",
   "main": "app.js",
   "scripts": {
     "lint": "npx eslint . --fix",

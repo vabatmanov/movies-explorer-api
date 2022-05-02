@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const constants = require('../utils/constants');
+const constMessages = require('../utils/constantsMessages');
 const ErrorObjectNotFound = require('../errors/ErrorObjectNotFound');
 const ErrorConflict = require('../errors/ErrorConflict');
 const ErrorValidation = require('../errors/ErrorValidation');
@@ -18,7 +19,7 @@ module.exports.login = (req, res, next) => {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
         })
-        .send({ message: 'Access token received' });
+        .send({ message: constMessages.TOKEN_RECEIVED });
     })
     .catch((err) => {
       next(err);
@@ -47,7 +48,7 @@ module.exports.createUser = (req, res, next) => {
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        throw new ErrorConflict('Пользователь с таким email уже существует');
+        throw new ErrorConflict(constMessages.EMAIL_BUSY);
       }
       return bcrypt.hash(password, constants.SALT_ROUNDS);
     })
@@ -62,7 +63,7 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ErrorValidation('Переданы некорректные данные при создании пользователя'));
+        next(new ErrorValidation(constMessages.INCORRECT_DATA_CREATE));
       } else {
         next(err);
       }
@@ -71,6 +72,7 @@ module.exports.createUser = (req, res, next) => {
 
 module.exports.updateUserProfile = (req, res, next) => {
   const { email, name } = req.body;
+
   User.findByIdAndUpdate(req.user._id, { email, name }, { new: true, runValidators: true })
     .orFail(() => {
       throw new ErrorObjectNotFound(`Пользователь с указанным _id='${req.params.userId}' не найден`);
@@ -79,8 +81,12 @@ module.exports.updateUserProfile = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => {
+      if (err.code === 11000) {
+        next(new ErrorConflict(constMessages.EMAIL_BUSY));
+        return;
+      }
       if (err.name === 'ValidationError') {
-        next(new ErrorValidation('Переданы некорректные данные при обновлении профиля'));
+        next(new ErrorValidation(constMessages.INCORRECT_DATA_UPDATE));
       } else {
         next(err);
       }
@@ -88,5 +94,5 @@ module.exports.updateUserProfile = (req, res, next) => {
 };
 
 module.exports.logOff = (req, res) => {
-  res.clearCookie('jwt').send({ message: 'logoff' });
+  res.clearCookie('jwt').send({ message: constMessages.LOGOFF });
 };

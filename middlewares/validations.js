@@ -1,9 +1,10 @@
 const { celebrate, Joi, Segments } = require('celebrate');
 const { isURL } = require('validator');
+const constMessages = require('../utils/constantsMessages');
 
 const validateURL = (value) => {
   if (!isURL(value)) {
-    throw new Error('Неправильный формат ссылки');
+    throw new Error(constMessages.BAD_LINK);
   }
   return value;
 };
